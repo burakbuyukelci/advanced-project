@@ -1,22 +1,73 @@
-<div style="min-height: 100vh; background-color: #0f1015; padding: 40px; font-family: 'Segoe UI', sans-serif; color: white;">
-  <div style="max-width: 1000px; margin: auto;">
-    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2a2d35; padding-bottom: 20px; margin-bottom: 30px;">
-      <h2 style="margin: 0; color: #fff;">Yetkili Ürünlerim <span style="font-size: 14px; color: #8c52ff; background: rgba(140, 82, 255, 0.2); padding: 4px 8px; border-radius: 4px; margin-left: 10px;">Admin Access</span></h2>
-      <button routerLink="/login" style="padding: 8px 16px; background: transparent; border: 1px solid #ff4757; color: #ff4757; border-radius: 6px; cursor: pointer;">Çıkış Yap</button>
+<div class="store-container">
+
+  <nav class="navbar">
+    <div class="logo">
+      <span class="highlight">Data</span>Pulse <span class="logo-sub">| Store</span>
+    </div>
+    <div class="nav-actions">
+      <button class="cart-btn" routerLink="/cart">
+        Sepetim <span *ngIf="cartCount > 0" style="color: #8c52ff; font-weight: bold;">({{ cartCount }})</span>
+      </button>
+      <button class="login-btn" routerLink="/login">Çıkış Yap</button>
+    </div>
+  </nav>
+
+  <div class="hero-banner">
+    <div class="glow-orb"></div>
+    <h1 class="hero-title">Yeni Nesil Teknolojiyi Keşfet</h1>
+    <p class="hero-subtitle">DataPulse yetkili mağazasına hoş geldiniz. İhtiyacınız olan ürünleri inceleyin, yapay zeka asistanımıza danışın.</p>
+  </div>
+
+  <div class="products-wrapper">
+    <div class="products-header">
+      <h2>Öne Çıkan Ürünler</h2>
+      <select class="sort-select">
+        <option>En Yeniler</option>
+        <option>Fiyata Göre Artan</option>
+        <option>Fiyata Göre Azalan</option>
+      </select>
     </div>
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;">
-      <div *ngFor="let product of products" style="background: #1a1c23; border: 1px solid #2a2d35; padding: 25px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; flex-direction: column; justify-content: space-between;">
-        <div>
-          <div style="font-size: 40px; margin-bottom: 15px;">{{ product.icon }}</div>
-          <h3 style="margin: 0 0 10px 0; color: #fff;">{{ product.name }}</h3>
-          <p style="color: #888; font-size: 14px;">Stok Kodu: {{ product.sku }}</p>
-        </div>
-        <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 22px; color: #2ed573; font-weight: bold;">${{ product.price }}</span>
-          <button [routerLink]="['/product', product.id]" style="padding: 10px 15px; background-color: #8c52ff; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Detay & AI Chat</button>
+    <div class="product-grid">
+      <div class="product-card" *ngFor="let product of products">
+        <div class="card-icon">{{ product.icon }}</div>
+
+        <div class="card-content">
+          <div class="product-info">
+            <div class="sku-badge">Stok Kodu: {{ product.sku }}</div>
+            <h3 class="product-name">{{ product.name }}</h3>
+          </div>
+
+          <div class="card-footer">
+            <div class="product-price">${{ product.price }}</div>
+            <div class="action-buttons">
+              <button class="add-cart-btn" (click)="onAddToCartClick(product)">Sepete Ekle</button>
+              <button class="detail-btn" [routerLink]="['/product', product.id]">Detay İncele</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
+  <div class="modal-overlay" *ngIf="showAuthModal">
+    <div class="modal-box">
+      <div class="modal-icon">🛒</div>
+      <h3 style="margin-top:0; color: #2c3e50;">Ürün Sepete Eklendi!</h3>
+      <p style="color: #666; font-size: 14px; margin-bottom: 25px;">Siparişini tamamlamak için nasıl devam etmek istersin?</p>
+
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <button (click)="goToLogin()" style="padding: 12px; background: #8c52ff; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 15px;">
+          Giriş Yap veya Üye Ol
+        </button>
+        <button (click)="continueAsGuest()" style="padding: 12px; background: white; color: #8c52ff; border: 1px solid #8c52ff; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 15px;">
+          Üye Olmadan Devam Et
+        </button>
+        <button (click)="closeModal()" style="padding: 8px; background: transparent; color: #999; border: none; cursor: pointer; font-size: 13px; margin-top: 10px;">
+          Alışverişe Dön
+        </button>
+      </div>
+    </div>
+  </div>
+
 </div>

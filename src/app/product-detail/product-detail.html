@@ -1,42 +1,84 @@
-<div style="min-height: 100vh; background-color: #0f1015; padding: 40px; font-family: 'Segoe UI', sans-serif; color: white;" *ngIf="product">
-  <div style="max-width: 1000px; margin: auto;">
+<div class="page-container" *ngIf="product">
 
-    <button routerLink="/products" style="background: transparent; border: 1px solid #888; color: #888; padding: 6px 12px; border-radius: 4px; cursor: pointer; margin-bottom: 20px;">← Ürünlere Dön</button>
-
-    <div style="background: #1a1c23; border: 1px solid #2a2d35; padding: 30px; border-radius: 12px; margin-bottom: 20px;">
-      <h2 style="margin-top: 0; color: #8c52ff; font-size: 28px;">{{ product.icon }} {{ product.name }}</h2>
-      <p style="font-size: 24px; color: #2ed573; font-weight: bold;">${{ product.price }}</p>
-      <hr style="border-color: #2a2d35; margin: 20px 0;">
-      <h4 style="color: #aaa;">Ürün Özellikleri:</h4>
-      <ul style="color: #ccc; line-height: 1.8;">
-        <li *ngFor="let spec of product.specs">{{ spec }}</li>
-      </ul>
+  <nav class="navbar">
+    <div class="logo">
+      <span class="highlight">Data</span>Pulse <span class="logo-sub">| Store</span>
     </div>
-  </div>
+    <div class="nav-actions">
+      <button class="cart-btn" routerLink="/cart">
+        Sepetim <span *ngIf="cartCount > 0" style="color: #8c52ff; font-weight: bold;">({{ cartCount }})</span>
+      </button>
+      <button class="login-btn" routerLink="/login">Çıkış Yap</button>
+    </div>
+  </nav>
 
-  <div style="position: fixed; bottom: 30px; right: 30px; width: 350px; background: #1a1c23; border: 1px solid #363a45; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; overflow: hidden; z-index: 1000;">
-
-    <div style="background: #8c52ff; padding: 15px; color: white; font-weight: bold; display: flex; justify-content: space-between; align-items: center;">
-      <span>🤖 AI Asistan</span>
-      <span style="font-size: 10px; background: rgba(0,0,0,0.2); padding: 3px 6px; border-radius: 4px;">Güvenli Mod</span>
+  <div class="main-content">
+    <div class="breadcrumb">
+      <button routerLink="/products" class="back-btn">← Mağazaya Dön</button>
+      <span class="path">Ana Sayfa / Ürünler / <b>{{ product.name }}</b></span>
     </div>
 
-    <div style="height: 350px; overflow-y: auto; padding: 15px; background: #0f1015; display: flex; flex-direction: column; gap: 10px;">
-      <div *ngFor="let msg of messages" [ngStyle]="{'align-self': msg.sender === 'user' ? 'flex-end' : 'flex-start', 'max-width': '80%'}">
-        <div [ngStyle]="{'background': msg.sender === 'user' ? '#8c52ff' : '#242731', 'color': 'white', 'padding': '10px 14px', 'border-radius': msg.sender === 'user' ? '12px 12px 0 12px' : '12px 12px 12px 0', 'font-size': '14px', 'border': msg.sender === 'user' ? 'none' : '1px solid #363a45'}">
-          {{ msg.text }}
+    <div class="content-grid">
+      <div class="product-section">
+        <div class="product-image-box">
+          <div class="icon-huge">{{ product.icon }}</div>
+        </div>
+
+        <div class="product-info-box">
+          <div class="sku">Stok Kodu: {{ product.sku }}</div>
+          <h1 class="title">{{ product.name }}</h1>
+          <div class="price">${{ product.price }}</div>
+
+          <h4 class="specs-title">Öne Çıkan Özellikler:</h4>
+          <ul class="specs-list">
+            <li *ngFor="let spec of product.specs">{{ spec }}</li>
+          </ul>
+
+          <button class="add-to-cart-btn-large" (click)="onAddToCartClick()">
+            🛒 Sepete Ekle
+          </button>
         </div>
       </div>
-      <div *ngIf="loading" style="align-self: flex-start; background: #242731; padding: 10px 14px; border-radius: 12px 12px 12px 0; font-size: 14px; color: #aaa; border: 1px solid #363a45; font-style: italic;">
-        AI analiz ediyor...
+
+      <div class="ai-section">
+        <div class="chat-header">
+          <div class="chat-title"><span class="robot-icon">🤖</span> DataPulse AI Asistan</div>
+          <div class="badge">Güvenli Mod</div>
+        </div>
+
+        <div class="chat-history">
+          <div class="message-wrapper" *ngFor="let msg of messages" [ngClass]="{'user-wrapper': msg.sender === 'user'}">
+            <div class="message-bubble" [ngClass]="msg.sender === 'user' ? 'user-bubble' : 'ai-bubble'">
+              {{ msg.text }}
+            </div>
+            <div class="message-sender">{{ msg.sender === 'user' ? 'Sen' : 'AI Asistan' }}</div>
+          </div>
+
+          <div class="message-wrapper" *ngIf="loading">
+            <div class="message-bubble ai-bubble loading-bubble">Analiz ediliyor...</div>
+          </div>
+        </div>
+
+        <div class="chat-input-area">
+          <input [(ngModel)]="userQuery" (keyup.enter)="askAi()" placeholder="Ürün hakkında bir şey sor..." class="chat-input">
+          <button (click)="askAi()" [disabled]="loading" class="send-btn">Gönder</button>
+        </div>
       </div>
     </div>
+  </div>
 
-    <div style="padding: 15px; background: #1a1c23; border-top: 1px solid #2a2d35; display: flex; gap: 10px;">
-      <input [(ngModel)]="userQuery" (keyup.enter)="askAi()" placeholder="Ürünle ilgili sor..." style="flex: 1; padding: 10px; border-radius: 20px; border: 1px solid #363a45; background: #0f1015; color: white; outline: none;">
-      <button (click)="askAi()" [disabled]="loading" style="background: #8c52ff; color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center;">
-        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-      </button>
+  <div class="modal-overlay" *ngIf="showAuthModal">
+    <div class="modal-box">
+      <div class="modal-icon">🛒</div>
+      <h3 style="margin-top:0; color: #2c3e50;">Ürün Sepete Eklendi!</h3>
+      <p style="color: #666; font-size: 14px; margin-bottom: 25px;">Siparişini tamamlamak için nasıl devam etmek istersin?</p>
+
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <button (click)="goToLogin()" class="modal-btn primary">Giriş Yap veya Üye Ol</button>
+        <button (click)="continueAsGuest()" class="modal-btn secondary">Üye Olmadan Devam Et</button>
+        <button (click)="closeModal()" class="modal-btn text-only">Alışverişe Dön</button>
+      </div>
     </div>
   </div>
+
 </div>

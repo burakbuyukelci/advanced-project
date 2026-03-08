@@ -1,0 +1,68 @@
+/* GENEL VE NAVBAR */
+.page-container { min-height: 100vh; background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; }
+.navbar { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #eaeaea; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); }
+.logo { font-size: 26px; font-weight: 800; letter-spacing: 1px; color: #2c3e50; }
+.highlight { color: #8c52ff; }
+.logo-sub { font-size: 14px; font-weight: normal; color: #888; }
+.cart-btn { background: transparent; border: none; color: #555; cursor: pointer; font-size: 16px; transition: 0.3s; font-weight: 500; margin-right: 20px;}
+.cart-btn:hover { color: #8c52ff; }
+.login-btn { padding: 8px 20px; background-color: transparent; color: #ff4757; border: 1px solid #ff4757; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+.login-btn:hover { background-color: #ff4757; color: white; }
+
+/* İÇERİK DÜZENİ */
+.main-content { max-width: 1200px; margin: 0 auto; padding: 30px 20px 60px 20px; }
+.breadcrumb { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #eaeaea; padding-bottom: 15px; }
+.back-btn { background: white; border: 1px solid #dcdde1; color: #555; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 500; transition: 0.2s; }
+.back-btn:hover { border-color: #8c52ff; color: #8c52ff; }
+.path { color: #888; font-size: 14px; }
+.path b { color: #333; }
+
+/* GRID SİSTEMİ (Ekranı ikiye böler) */
+.content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+
+/* SOL: ÜRÜN KISMI */
+.product-section { display: flex; flex-direction: column; gap: 20px; }
+.product-image-box { background: white; height: 350px; border-radius: 16px; border: 1px solid #f1f2f6; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
+.icon-huge { font-size: 150px; }
+.product-info-box { background: white; padding: 30px; border-radius: 16px; border: 1px solid #f1f2f6; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
+.sku { font-size: 12px; color: #8c52ff; font-weight: bold; margin-bottom: 10px; background: rgba(140,82,255,0.1); display: inline-block; padding: 5px 10px; border-radius: 20px; }
+.title { margin: 0 0 15px 0; color: #2f3542; font-size: 28px; }
+.price { font-size: 32px; color: #27ae60; font-weight: 900; margin-bottom: 25px; }
+.specs-title { color: #555; margin-bottom: 10px; font-size: 16px; }
+.specs-list { color: #666; line-height: 1.8; padding-left: 20px; margin-bottom: 30px; }
+.add-to-cart-btn-large { width: 100%; padding: 16px; background: #27ae60; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3); }
+.add-to-cart-btn-large:hover { background: #219653; transform: translateY(-2px); }
+
+/* SAĞ: AI CHAT KISMI */
+.ai-section { background: white; border-radius: 16px; border: 1px solid #f1f2f6; box-shadow: 0 10px 30px rgba(140,82,255,0.08); display: flex; flex-direction: column; height: 680px; overflow: hidden; }
+.chat-header { background: linear-gradient(135deg, #8c52ff, #a57aff); padding: 20px; color: white; display: flex; justify-content: space-between; align-items: center; }
+.chat-title { font-weight: bold; font-size: 18px; display: flex; align-items: center; gap: 10px; }
+.robot-icon { font-size: 24px; }
+.badge { font-size: 11px; background: rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 4px; font-weight: bold; }
+.chat-history { flex: 1; padding: 20px; overflow-y: auto; background: #fafafa; display: flex; flex-direction: column; gap: 15px; }
+.message-wrapper { display: flex; flex-direction: column; align-items: flex-start; max-width: 85%; }
+.user-wrapper { align-self: flex-end; align-items: flex-end; }
+.message-bubble { padding: 12px 16px; border-radius: 16px; font-size: 15px; line-height: 1.5; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+.ai-bubble { background: white; color: #333; border: 1px solid #eaeaea; border-bottom-left-radius: 4px; }
+.user-bubble { background: #8c52ff; color: white; border-bottom-right-radius: 4px; }
+.loading-bubble { font-style: italic; color: #888; }
+.message-sender { font-size: 11px; color: #999; margin-top: 5px; margin-left: 5px; margin-right: 5px; }
+.chat-input-area { padding: 20px; background: white; border-top: 1px solid #eaeaea; display: flex; gap: 10px; }
+.chat-input { flex: 1; padding: 15px; border-radius: 10px; border: 1px solid #dcdde1; outline: none; font-size: 15px; background: #fdfdfd; transition: 0.3s; }
+.chat-input:focus { border-color: #8c52ff; box-shadow: 0 0 0 3px rgba(140,82,255,0.1); }
+.send-btn { padding: 0 25px; background: #8c52ff; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+.send-btn:hover:not(:disabled) { background: #7a3eff; }
+.send-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+/* MODAL STİLLERİ (Ana sayfadakiyle aynı) */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; z-index: 9999; }
+.modal-box { background: white; padding: 30px; border-radius: 16px; width: 350px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.2); animation: popIn 0.3s ease-out; }
+.modal-icon { font-size: 50px; margin-bottom: 15px; }
+.modal-btn { padding: 12px; border-radius: 8px; font-weight: bold; font-size: 15px; cursor: pointer; transition: 0.2s; width: 100%; }
+.modal-btn.primary { background: #8c52ff; color: white; border: none; }
+.modal-btn.primary:hover { background: #7a3eff; }
+.modal-btn.secondary { background: white; color: #8c52ff; border: 1px solid #8c52ff; }
+.modal-btn.secondary:hover { background: #fdfaff; }
+.modal-btn.text-only { background: transparent; color: #999; border: none; font-size: 13px; margin-top: 10px; }
+.modal-btn.text-only:hover { color: #555; text-decoration: underline; }
+@keyframes popIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
