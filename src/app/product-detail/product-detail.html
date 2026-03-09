@@ -6,7 +6,7 @@
     </div>
     <div class="nav-actions">
       <button class="cart-btn" routerLink="/cart">
-        Sepetim <span *ngIf="cartCount > 0" style="color: #8c52ff; font-weight: bold;">({{ cartCount }})</span>
+        Sepetim <span *ngIf="cartCount > 0" class="cart-badge">{{ cartCount }}</span>
       </button>
       <button class="login-btn" routerLink="/login">Çıkış Yap</button>
     </div>
@@ -15,55 +15,72 @@
   <div class="main-content">
     <div class="breadcrumb">
       <button routerLink="/products" class="back-btn">← Mağazaya Dön</button>
-      <span class="path">Ana Sayfa / Ürünler / <b>{{ product.name }}</b></span>
+      <span class="path">Ana Sayfa > Teknoloji > Giyilebilir > <b>{{ product.name }}</b></span>
     </div>
 
-    <div class="content-grid">
-      <div class="product-section">
-        <div class="product-image-box">
+    <div class="product-showcase">
+
+      <div class="gallery-section">
+        <div class="main-image-container">
+          <div class="zoom-icon">🔍</div>
           <div class="icon-huge">{{ product.icon }}</div>
         </div>
+        <div class="thumbnail-list">
+          <div class="thumbnail active">{{ product.icon }}</div>
+          <div class="thumbnail">{{ product.icon }}</div>
+          <div class="thumbnail">{{ product.icon }}</div>
+          <div class="thumbnail">{{ product.icon }}</div>
+        </div>
+      </div>
 
-        <div class="product-info-box">
-          <div class="sku">Stok Kodu: {{ product.sku }}</div>
-          <h1 class="title">{{ product.name }}</h1>
-          <div class="price">${{ product.price }}</div>
+      <div class="info-section">
+        <div class="brand-and-rating">
+          <span class="brand-name">DataPulse</span>
+          <div class="rating">
+            <span class="stars">⭐⭐⭐⭐⭐</span>
+            <a href="#" class="review-count">128 Değerlendirme</a>
+          </div>
+        </div>
 
-          <h4 class="specs-title">Öne Çıkan Özellikler:</h4>
+        <h1 class="product-title">{{ product.name }}</h1>
+        <div class="sku-text">Stok Kodu: {{ product.sku }}</div>
+
+        <div class="price-box">
+          <div class="discount-badge">%20 İndirim</div>
+          <div class="price-details">
+            <span class="old-price">${{ (product.price * 1.25).toFixed(2) }}</span>
+            <span class="new-price">${{ product.price }}</span>
+          </div>
+        </div>
+
+        <div class="shipping-banners">
+          <div class="banner green-banner">✅ <b>Kargo Bedava</b> (150$ ve üzeri)</div>
+          <div class="banner fast-banner">📦 Bugün sipariş verirsen <b>Yarın Kargoda!</b></div>
+        </div>
+
+        <div class="specs-box">
+          <h4>Öne Çıkan Özellikler</h4>
           <ul class="specs-list">
-            <li *ngFor="let spec of product.specs">{{ spec }}</li>
+            <li *ngFor="let spec of product.specs">
+              <span class="bullet">•</span> {{ spec }}
+            </li>
           </ul>
+        </div>
 
-          <button class="add-to-cart-btn-large" (click)="onAddToCartClick()">
-            🛒 Sepete Ekle
+        <div class="action-area">
+          <button class="btn-add-to-cart" (click)="onAddToCartClick()">
+            Sepete Ekle
+          </button>
+          <button class="btn-favorite">
+            🤍
           </button>
         </div>
-      </div>
 
-      <div class="ai-section">
-        <div class="chat-header">
-          <div class="chat-title"><span class="robot-icon">🤖</span> DataPulse AI Asistan</div>
-          <div class="badge">Güvenli Mod</div>
-        </div>
-
-        <div class="chat-history">
-          <div class="message-wrapper" *ngFor="let msg of messages" [ngClass]="{'user-wrapper': msg.sender === 'user'}">
-            <div class="message-bubble" [ngClass]="msg.sender === 'user' ? 'user-bubble' : 'ai-bubble'">
-              {{ msg.text }}
-            </div>
-            <div class="message-sender">{{ msg.sender === 'user' ? 'Sen' : 'AI Asistan' }}</div>
-          </div>
-
-          <div class="message-wrapper" *ngIf="loading">
-            <div class="message-bubble ai-bubble loading-bubble">Analiz ediliyor...</div>
-          </div>
-        </div>
-
-        <div class="chat-input-area">
-          <input [(ngModel)]="userQuery" (keyup.enter)="askAi()" placeholder="Ürün hakkında bir şey sor..." class="chat-input">
-          <button (click)="askAi()" [disabled]="loading" class="send-btn">Gönder</button>
+        <div class="secure-shopping">
+          🔒 Orijinal Ürün Garantisi | 14 Gün İçinde Kolay İade
         </div>
       </div>
+
     </div>
   </div>
 

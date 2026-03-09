@@ -1,0 +1,57 @@
+<div class="login-page">
+  <div class="login-card">
+    <div class="logo">
+      <span class="highlight">Data</span>Pulse
+    </div>
+
+    <div *ngIf="successMessage" class="success-container">
+      <div class="success-icon">✅</div>
+      <h2>Hoş Geldiniz!</h2>
+      <p class="success-text">{{ successMessage }}</p>
+    </div>
+
+    <div *ngIf="!successMessage">
+      <h2>Hesap Oluştur</h2>
+      <p class="subtitle">Hemen üye olun, yeni nesil teknolojiyi kaçırmayın.</p>
+
+      <form (ngSubmit)="onSignup()">
+        <div class="input-group">
+          <label>Ad Soyad</label>
+          <input type="text" name="fullName" [(ngModel)]="signupData.fullName" placeholder="Örn: Mert Ayhan" required>
+        </div>
+
+        <div class="input-group">
+          <label>E-posta Adresi</label>
+          <input type="email" name="email" [(ngModel)]="signupData.email" placeholder="mail@ornek.com" required>
+        </div>
+
+        <div class="input-row">
+          <div class="input-group">
+            <label>Şifre</label>
+            <input type="password" name="password" [(ngModel)]="signupData.password" placeholder="••••••" required>
+          </div>
+
+          <div class="input-group">
+            <label>Şifre Tekrar</label>
+            <input type="password" name="confirmPassword" [(ngModel)]="signupData.confirmPassword" placeholder="••••••" required>
+          </div>
+        </div>
+
+        <div class="error-text" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+
+        <button type="submit" class="login-btn">Ücretsiz Kayıt Ol</button>
+      </form>
+
+      <div class="divider">
+        <span>veya</span>
+      </div>
+
+      <p class="signup-text">
+        Zaten üye misiniz? <a routerLink="/login">Hemen Giriş Yapın</a>
+      </p>
+    </div>
+
+  </div>
+</div>

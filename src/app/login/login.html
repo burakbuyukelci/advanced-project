@@ -1,44 +1,44 @@
-<div style="display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px;">
-  <div style="background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); width: 100%; max-width: 380px; border: 1px solid #eaeaea;">
-
-    <div style="text-align: center; margin-bottom: 25px;">
-      <h1 style="color: #2c3e50; margin: 0; font-size: 28px; letter-spacing: 1px;"><span style="color: #8c52ff;">Data</span>Pulse</h1>
-      <p style="color: #888; font-size: 14px; margin-top: 5px;">Hesabına giriş yap veya kayıt ol</p>
+<div class="login-page">
+  <div class="login-card">
+    <div class="logo">
+      <span class="highlight">Data</span>Pulse
     </div>
+    <h2>Tekrar Hoş Geldiniz</h2>
+    <p class="subtitle">DataPulse hesabınızla giriş yapın</p>
 
-    <div style="display: flex; margin-bottom: 25px; border-bottom: 2px solid #eee;">
-
-      <div (click)="switchMode('login')"
-           [ngStyle]="{'border-bottom': isLoginMode ? '2px solid #8c52ff' : 'none', 'color': isLoginMode ? '#8c52ff' : '#888', 'font-weight': isLoginMode ? 'bold' : 'normal'}"
-           style="flex: 1; text-align: center; padding-bottom: 10px; cursor: pointer; transition: 0.3s;">
-        Giriş Yap
+    <form (ngSubmit)="onLogin()">
+      <div class="input-group">
+        <label>E-posta</label>
+        <input type="email" name="email" [(ngModel)]="loginData.email" placeholder="admin@datapulse.com" required>
       </div>
 
-      <div (click)="switchMode('register')"
-           [ngStyle]="{'border-bottom': !isLoginMode ? '2px solid #8c52ff' : 'none', 'color': !isLoginMode ? '#8c52ff' : '#888', 'font-weight': !isLoginMode ? 'bold' : 'normal'}"
-           style="flex: 1; text-align: center; padding-bottom: 10px; cursor: pointer; transition: 0.3s;">
-        Kayıt Ol
+      <div class="input-group">
+        <label>Şifre</label>
+        <input type="password" name="password" [(ngModel)]="loginData.password" placeholder="******" required>
       </div>
 
+      <div class="forgot-pass">
+        <a href="#">Şifremi Unuttum</a>
+      </div>
+
+      <div class="error-text" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" class="login-btn">Giriş Yap</button>
+    </form>
+
+    <div class="divider">
+      <span>veya</span>
     </div>
 
-    <div *ngIf="isLoginMode">
-      <input type="text" placeholder="E-posta Adresi" style="width: 100%; padding: 12px; margin-bottom: 15px; background: #fdfdfd; border: 1px solid #dcdde1; color: #333; border-radius: 6px; box-sizing: border-box; outline: none;">
-      <input type="password" placeholder="Şifre" style="width: 100%; padding: 12px; margin-bottom: 25px; background: #fdfdfd; border: 1px solid #dcdde1; color: #333; border-radius: 6px; box-sizing: border-box; outline: none;">
-      <button (click)="onLogin()" style="width: 100%; padding: 12px; background-color: #8c52ff; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; transition: 0.3s;">Giriş Yap</button>
-    </div>
+    <button class="google-btn">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google">
+      Google ile Devam Et
+    </button>
 
-    <div *ngIf="!isLoginMode">
-      <input type="text" placeholder="Ad Soyad" style="width: 100%; padding: 12px; margin-bottom: 15px; background: #fdfdfd; border: 1px solid #dcdde1; color: #333; border-radius: 6px; box-sizing: border-box; outline: none;">
-      <input type="text" placeholder="E-posta Adresi" style="width: 100%; padding: 12px; margin-bottom: 15px; background: #fdfdfd; border: 1px solid #dcdde1; color: #333; border-radius: 6px; box-sizing: border-box; outline: none;">
-      <input type="password" placeholder="Şifre Oluştur" style="width: 100%; padding: 12px; margin-bottom: 15px; background: #fdfdfd; border: 1px solid #dcdde1; color: #333; border-radius: 6px; box-sizing: border-box; outline: none;">
-      <input type="password" placeholder="Şifre Tekrar" style="width: 100%; padding: 12px; margin-bottom: 25px; background: #fdfdfd; border: 1px solid #dcdde1; color: #333; border-radius: 6px; box-sizing: border-box; outline: none;">
-      <button (click)="onRegister()" style="width: 100%; padding: 12px; background-color: #27ae60; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; transition: 0.3s;">Kayıt İşlemini Tamamla</button>
-    </div>
-
-    <div style="text-align: center; margin-top: 20px;">
-      <a style="color: #888; font-size: 13px; text-decoration: underline; cursor: pointer;" routerLink="/products">Vazgeç ve Mağazaya Dön</a>
-    </div>
-
+    <p class="signup-text">
+      Hesabınız yok mu? <a routerLink="/signup">Şimdi Kayıt Ol</a>
+    </p>
   </div>
 </div>

@@ -1,45 +1,38 @@
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { CartService } from '../cart.service'; // Sepeti kontrol etmek için ekledik
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, RouterModule],
-  templateUrl: './login.html'
+  imports: [FormsModule, CommonModule,RouterModule], // RouterModule çok önemli!
+  templateUrl: './login.html',
+  styleUrls: ['./login.css']
 })
 export class Login {
-  // Başlangıçta Giriş Yap sekmesi açık olsun
-  isLoginMode: boolean = true;
+  // Form verileri
+  loginData = {
+    email: '',
+    password: ''
+  };
 
-  constructor(
-    private router: Router,
-    private cartService: CartService // Servisi içeri aldık
-  ) {}
+  errorMessage: string = '';
 
-  // Sekmeler (Giriş / Kayıt) arası geçiş fonksiyonu
-  switchMode(mode: 'login' | 'register') {
-    this.isLoginMode = (mode === 'login');
-  }
+  constructor(private router: Router) {}
 
-  // GİRİŞ YAP BUTONUNA BASILINCA
   onLogin() {
-    // Akıllı Yönlendirme: Sepette ürün var mı bakıyoruz
-    const cartItems = this.cartService.getItems();
+    // BACKEND OLMADIĞI İÇİN MOCK (SAHTE) KONTROL
+    // Gerçek projede burada bir API isteği olurdu.
+    if (this.loginData.email === 'admin@datapulse.com' && this.loginData.password === '123456') {
+      console.log('Giriş Başarılı!');
 
-    if (cartItems.length > 0) {
-      // Sepette ürün varsa, alışverişi tamamlaması için sepete at
-      this.router.navigate(['/cart']);
+      // Hocanın istediği JWT simülasyonu için localStorage'a sahte bir token atalım
+      localStorage.setItem('token', 'mock-jwt-token-for-cse214');
+
+      this.router.navigate(['/products']); // Başarılıysa ürünlere git
     } else {
-      // Sepet boşsa normal mağazaya yönlendir
-      this.router.navigate(['/products']);
+      this.errorMessage = 'E-posta veya şifre hatalı! (İpucu: admin@datapulse.com / 123456)';
     }
-  }
-
-  // KAYIT OL BUTONUNA BASILINCA
-  onRegister() {
-    alert('Kayıt işlemi başarılı! Sisteme giriş yapıldı.');
-    this.onLogin(); // Kayıt olunca da aynı akıllı yönlendirmeyi çalıştır
   }
 }

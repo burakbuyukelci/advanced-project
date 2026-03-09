@@ -1,1 +1,32 @@
-<p>chat-widget works!</p>
+<div class="chat-widget-container">
+  <div class="chat-window" *ngIf="isOpen">
+    <div class="chat-header">
+      <div class="chat-title"><span class="robot-icon">🤖</span> DataPulse AI</div>
+      <button class="close-btn" (click)="toggleChat()">✖</button>
+    </div>
+
+    <div class="chat-messages" #chatScroll>
+      <div class="message-wrapper" *ngFor="let msg of messages" [ngClass]="{'user-wrapper': msg.sender === 'user'}">
+        <div class="message-bubble" [ngClass]="msg.sender === 'user' ? 'user-bubble' : 'ai-bubble'">
+          {{ msg.text }}
+        </div>
+        <div class="message-sender">{{ msg.sender === 'user' ? 'Sen' : 'AI Asistan' }}</div>
+      </div>
+      <div class="message-wrapper" *ngIf="loading">
+        <div class="message-bubble loading-bubble">Düşünüyor...</div>
+      </div>
+    </div>
+
+    <div class="chat-input-area">
+      <input [(ngModel)]="userQuery" (keyup.enter)="sendMessage()" placeholder="Bana bir şey sor..." class="chat-input" [disabled]="loading">
+      <button class="send-btn" (click)="sendMessage()" [disabled]="loading || !userQuery.trim()">
+        Gönder
+      </button>
+    </div>
+  </div>
+
+  <button class="chat-trigger-btn" (click)="toggleChat()" [ngClass]="{'open-state': isOpen}">
+    <span *ngIf="!isOpen" class="trigger-icon">💬</span>
+    <span *ngIf="isOpen" class="trigger-icon">✖</span>
+  </button>
+</div>
