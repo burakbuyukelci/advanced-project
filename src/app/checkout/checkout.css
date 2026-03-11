@@ -1,0 +1,38 @@
+.checkout-page { min-height: 100vh; background-color: #f8f9fa; font-family: 'Segoe UI', sans-serif; padding: 40px 20px; display: flex; justify-content: center; }
+
+.checkout-container { max-width: 1000px; width: 100%; }
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+.header h2 { color: #2c3e50; margin: 0; font-size: 28px; }
+.back-btn { background: white; border: 1px solid #dcdde1; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: bold; color: #555; transition: 0.2s; }
+.back-btn:hover { border-color: #8c52ff; color: #8c52ff; }
+
+.checkout-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 30px; align-items: start; }
+
+/* FORMLAR */
+.form-card { background: white; padding: 30px; border-radius: 12px; border: 1px solid #eaeaea; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+.form-card h3 { margin: 0 0 20px 0; color: #2c3e50; font-size: 18px; border-bottom: 1px solid #f1f2f6; padding-bottom: 10px; }
+.input-group { margin-bottom: 15px; display: flex; flex-direction: column; width: 100%; }
+.input-row { display: flex; gap: 15px; }
+.input-group label { font-size: 13px; font-weight: bold; color: #555; margin-bottom: 5px; }
+.input-group input { padding: 12px; border: 1px solid #dcdde1; border-radius: 8px; font-size: 14px; outline: none; transition: 0.3s; background: #fdfdfd; }
+.input-group input:focus { border-color: #8c52ff; box-shadow: 0 0 0 3px rgba(140,82,255,0.1); }
+
+/* ÖZET KISMI */
+.summary-section { background: white; padding: 30px; border-radius: 12px; border: 1px solid #eaeaea; box-shadow: 0 4px 15px rgba(0,0,0,0.02); position: sticky; top: 40px; }
+.summary-section h3 { margin: 0 0 20px 0; color: #2c3e50; }
+.mini-cart-items { border-bottom: 1px solid #eaeaea; padding-bottom: 15px; margin-bottom: 15px; max-height: 200px; overflow-y: auto; }
+.mini-item { display: flex; justify-content: space-between; font-size: 14px; color: #555; margin-bottom: 10px; }
+.summary-total { display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; color: #333; margin-bottom: 25px; }
+.total-price { color: #8c52ff; font-size: 24px; }
+
+.pay-btn { width: 100%; padding: 16px; background: #27ae60; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3); }
+.pay-btn:hover:not(:disabled) { background: #219653; transform: translateY(-2px); }
+.pay-btn:disabled { background: #95a5a6; cursor: wait; box-shadow: none; transform: none; }
+.secure-text { text-align: center; font-size: 12px; color: #888; margin-top: 15px; }
+
+/* BAŞARI EKRANI */
+.success-screen { background: white; padding: 60px 40px; border-radius: 16px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.1); max-width: 500px; width: 100%; margin: auto; animation: popIn 0.5s ease-out; }
+.success-icon { font-size: 80px; margin-bottom: 20px; }
+.success-screen h2 { color: #27ae60; margin: 0 0 10px 0; font-size: 28px; }
+.success-screen p { color: #555; line-height: 1.6; }
+@keyframes popIn { 0% { opacity: 0; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }

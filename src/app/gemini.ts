@@ -7,7 +7,7 @@ import { CartService } from './cart.service'; // 1. ADIM: SEPET SERVİSİNİ İ�
 })
 export class Gemini {
   // DİKKAT: KENDİ ÇALIŞAN API ANAHTARINI BURAYA YAZMAYI UNUTMA!
-  private apiKey = '****';
+  private apiKey = '******';
 
   private apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:streamGenerateContent?alt=sse&key=${this.apiKey}`;
 

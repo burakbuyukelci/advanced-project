@@ -1,0 +1,24 @@
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
+@Component({
+  selector: 'app-dashboard',
+  standalone: true,
+  imports: [CommonModule, RouterModule],
+  templateUrl: './dashboard.html',
+  styleUrl: './dashboard.css'
+})
+export class Dashboard {
+  // PDF'te istenen KPI (Özet) verileri
+  kpiData = {
+    revenue: '$48,294',
+    revenueGrowth: '+12.5%',
+    orders: '1,842',
+    ordersGrowth: '+5.2%',
+    customers: '3,421',
+    customersGrowth: '+18.4%',
+    rating: '4.8',
+    ratingGrowth: '+0.2'
+  };
+}

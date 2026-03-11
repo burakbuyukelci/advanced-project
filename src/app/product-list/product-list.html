@@ -1,51 +1,125 @@
 <div class="store-container">
 
   <nav class="navbar">
-    <div class="logo">
-      <span class="highlight">Data</span>Pulse <span class="logo-sub">| Store</span>
+    <div class="logo"><span class="highlight">Data</span>Pulse <span class="logo-sub">| Store</span></div>
+
+    <div class="search-container">
+      <input type="text" [(ngModel)]="searchText" placeholder="Ürün, kategori veya marka ara..." class="search-input">
+      <span class="search-icon">🔍</span>
     </div>
+
+
     <div class="nav-actions">
+      <button class="orders-btn" routerLink="/wishlist" style="color: #ff4757;">
+        ❤️ Favorilerim
+      </button>
+      <button class="orders-btn" routerLink="/orders">
+        📦 Siparişlerim
+      </button>
+
       <button class="cart-btn" routerLink="/cart">
-        Sepetim <span *ngIf="cartCount > 0" style="color: #8c52ff; font-weight: bold;">({{ cartCount }})</span>
+        Sepetim <span *ngIf="cartCount > 0" class="cart-badge">({{ cartCount }})</span>
       </button>
       <button class="login-btn" routerLink="/login">Giriş Yap</button>
     </div>
   </nav>
 
-  <div class="hero-banner">
-    <div class="glow-orb"></div>
-    <h1 class="hero-title">Yeni Nesil Teknolojiyi Keşfet</h1>
-    <p class="hero-subtitle">DataPulse yetkili mağazasına hoş geldiniz. İhtiyacınız olan ürünleri inceleyin, yapay zeka asistanımıza danışın.</p>
-  </div>
+  <div class="main-layout">
 
-  <div class="products-wrapper">
-    <div class="products-header">
-      <h2>Öne Çıkan Ürünler</h2>
-      <select class="sort-select">
-        <option>En Yeniler</option>
-        <option>Fiyata Göre Artan</option>
-        <option>Fiyata Göre Azalan</option>
-      </select>
-    </div>
+    <aside class="sidebar-filters">
 
-    <div class="product-grid">
-      <div class="product-card" *ngFor="let product of products">
-        <div class="card-icon">{{ product.icon }}</div>
+      <h3>Kategoriler</h3>
+      <ul class="category-list">
+        <li *ngFor="let cat of categories"
+            (click)="selectCategory(cat)"
+            [class.active]="selectedCategory === cat">
+          {{ cat }}
+        </li>
+      </ul>
 
-        <div class="card-content">
-          <div class="product-info">
-            <div class="sku-badge">Stok Kodu: {{ product.sku }}</div>
-            <h3 class="product-name">{{ product.name }}</h3>
-          </div>
+      <div class="filter-group">
+        <h3>Fiyat Aralığı</h3>
+        <div class="price-inputs">
+          <input type="number" [(ngModel)]="minPrice" placeholder="En Az ($)">
+          <span>-</span>
+          <input type="number" [(ngModel)]="maxPrice" placeholder="En Çok ($)">
+        </div>
+      </div>
 
-          <div class="card-footer">
-            <div class="product-price">${{ product.price }}</div>
-            <div class="action-buttons">
-              <button class="add-cart-btn" (click)="onAddToCartClick(product)">Sepete Ekle</button>
-              <button class="detail-btn" [routerLink]="['/product', product.id]">Detay İncele</button>
+      <div class="filter-group">
+        <h3>Değerlendirme Puanı</h3>
+        <div class="rating-filters">
+          <label class="radio-label">
+            <input type="radio" name="rating" [value]="0" [(ngModel)]="selectedRating"> Tüm Ürünler
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="rating" [value]="4.5" [(ngModel)]="selectedRating">
+            <span class="stars-text">⭐⭐⭐⭐</span> 4.5 ve Üzeri
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="rating" [value]="4" [(ngModel)]="selectedRating">
+            <span class="stars-text">⭐⭐⭐⭐</span> 4 Yıldız ve Üzeri
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="rating" [value]="3" [(ngModel)]="selectedRating">
+            <span class="stars-text">⭐⭐⭐</span> 3 Yıldız ve Üzeri
+          </label>
+        </div>
+      </div>
+
+    </aside>
+
+    <div class="products-wrapper">
+      <div class="products-header">
+        <h2>{{ selectedCategory }} <span class="result-count">({{ filteredProducts.length }} ürün bulundu)</span></h2>
+
+        <select class="sort-select" [(ngModel)]="sortOption">
+          <option>En Yeniler</option>
+          <option>En Çok Değerlendirilenler</option>
+          <option>Fiyata Göre Artan</option>
+          <option>Fiyata Göre Azalan</option>
+        </select>
+      </div>
+
+      <div class="product-grid">
+        <div class="product-card" *ngFor="let product of filteredProducts">
+
+          <div class="stock-badge low-stock" *ngIf="product.stock > 0 && product.stock <= 5">Son {{ product.stock }} Ürün!</div>
+          <div class="stock-badge out-of-stock" *ngIf="product.stock === 0">Tükendi</div>
+          <button class="wishlist-btn" (click)="toggleWishlist(product)">
+            {{ isFavorite(product.id) ? '❤️' : '🤍' }}
+          </button>
+          <div class="card-icon" [class.grayscale]="product.stock === 0">{{ product.icon }}</div>
+
+          <div class="card-content">
+            <div class="product-info">
+              <span class="category-tag">{{ product.category }}</span>
+              <h3 class="product-name" [class.faded]="product.stock === 0">{{ product.name }}</h3>
+
+              <div class="rating-box">
+                <span class="stars">{{ getStars(product.rating) }}</span>
+                <span class="review-count">({{ product.reviewCount }})</span>
+              </div>
+            </div>
+
+            <div class="card-footer">
+              <div class="product-price" [class.faded]="product.stock === 0">${{ product.price }}</div>
+              <div class="action-buttons">
+                <button class="add-cart-btn" (click)="onAddToCartClick(product)" [disabled]="product.stock === 0">
+                  {{ product.stock === 0 ? 'Tükendi' : 'Sepete Ekle' }}
+                </button>
+                <button class="detail-btn" [routerLink]="['/product', product.id]">İncele</button>
+              </div>
             </div>
           </div>
         </div>
+
+        <div *ngIf="filteredProducts.length === 0" class="no-results">
+          <div style="font-size: 50px;">🕵️‍♂️</div>
+          <h3>Arama kriterlerinize uygun ürün bulunamadı.</h3>
+          <p>Lütfen farklı kelimelerle tekrar deneyin.</p>
+        </div>
+
       </div>
     </div>
   </div>
@@ -57,15 +131,9 @@
       <p style="color: #666; font-size: 14px; margin-bottom: 25px;">Siparişini tamamlamak için nasıl devam etmek istersin?</p>
 
       <div style="display: flex; flex-direction: column; gap: 12px;">
-        <button (click)="goToLogin()" style="padding: 12px; background: #8c52ff; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 15px;">
-          Giriş Yap veya Üye Ol
-        </button>
-        <button (click)="continueAsGuest()" style="padding: 12px; background: white; color: #8c52ff; border: 1px solid #8c52ff; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 15px;">
-          Üye Olmadan Devam Et
-        </button>
-        <button (click)="closeModal()" style="padding: 8px; background: transparent; color: #999; border: none; cursor: pointer; font-size: 13px; margin-top: 10px;">
-          Alışverişe Dön
-        </button>
+        <button (click)="goToLogin()" class="modal-btn primary">Giriş Yap veya Üye Ol</button>
+        <button (click)="continueAsGuest()" class="modal-btn secondary">Üye Olmadan Devam Et</button>
+        <button (click)="closeModal()" class="modal-btn text-only">Alışverişe Dön</button>
       </div>
     </div>
   </div>

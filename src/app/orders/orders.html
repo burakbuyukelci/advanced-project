@@ -1,0 +1,46 @@
+<div class="orders-page">
+  <div class="orders-container">
+
+    <div class="header">
+      <h2>📦 Sipariş Geçmişim</h2>
+      <button routerLink="/products" class="back-btn">Alışverişe Devam Et</button>
+    </div>
+
+    <div *ngIf="myOrders.length === 0" class="empty-state">
+      <div style="font-size: 60px; margin-bottom: 20px;">🛍️</div>
+      <h3>Henüz hiç siparişiniz yok</h3>
+      <p style="color: #888;">DataPulse mağazasında harika ürünler sizi bekliyor.</p>
+    </div>
+
+    <div *ngIf="myOrders.length > 0" class="orders-list">
+
+      <div class="order-card" *ngFor="let order of myOrders">
+        <div class="order-header">
+          <div class="order-info">
+            <span class="order-id">Sipariş No: {{ order.orderId }}</span>
+            <span class="order-date">{{ order.date | date:'dd.MM.yyyy HH:mm' }}</span>
+          </div>
+          <div class="order-status">{{ order.status }}</div>
+        </div>
+
+        <div class="order-items">
+          <div class="item-row" *ngFor="let item of order.items">
+            <div class="item-icon">{{ item.product.icon }}</div>
+            <div class="item-details">
+              <h4>{{ item.product.name }}</h4>
+              <span>Adet: {{ item.quantity }}</span>
+            </div>
+            <div class="item-price">${{ (item.product.price * item.quantity).toFixed(2) }}</div>
+          </div>
+        </div>
+
+        <div class="order-footer">
+          <span>Toplam Tutar:</span>
+          <span class="order-total">${{ order.total.toFixed(2) }}</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,82 @@
+<div class="checkout-page">
+
+  <div class="success-screen" *ngIf="paymentSuccessful">
+    <div class="success-icon">✅</div>
+    <h2>Siparişiniz Alındı!</h2>
+    <p>Ödemeniz başarıyla gerçekleşti. Ürünleriniz en kısa sürede kargoya verilecektir.</p>
+    <p style="font-size: 13px; color: #888; margin-top: 20px;">Ana sayfaya yönlendiriliyorsunuz...</p>
+  </div>
+
+  <div class="checkout-container" *ngIf="!paymentSuccessful">
+    <div class="header">
+      <h2>Güvenli Ödeme</h2>
+      <button routerLink="/cart" class="back-btn">← Sepete Dön</button>
+    </div>
+
+    <div class="checkout-grid">
+
+      <div class="form-section">
+
+        <div class="form-card">
+          <h3>📍 Teslimat Bilgileri</h3>
+          <div class="input-group">
+            <label>Ad Soyad</label>
+            <input type="text" [(ngModel)]="checkoutData.fullName" placeholder="Örn: Mert Ayhan" required>
+          </div>
+          <div class="input-row">
+            <div class="input-group">
+              <label>Şehir</label>
+              <input type="text" [(ngModel)]="checkoutData.city" placeholder="Örn: İstanbul" required>
+            </div>
+            <div class="input-group">
+              <label>Açık Adres</label>
+              <input type="text" [(ngModel)]="checkoutData.address" placeholder="Mahalle, sokak, no..." required>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-card" style="margin-top: 25px;">
+          <h3>💳 Kart Bilgileri</h3>
+          <div class="input-group">
+            <label>Kart Numarası</label>
+            <input type="text" [(ngModel)]="checkoutData.cardNumber" placeholder="0000 0000 0000 0000" maxlength="16" required>
+          </div>
+          <div class="input-row">
+            <div class="input-group">
+              <label>Son Kullanma (AA/YY)</label>
+              <input type="text" [(ngModel)]="checkoutData.expiry" placeholder="12/25" maxlength="5" required>
+            </div>
+            <div class="input-group">
+              <label>CVV</label>
+              <input type="password" [(ngModel)]="checkoutData.cvv" placeholder="***" maxlength="3" required>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="summary-section">
+        <h3>Sipariş Özeti</h3>
+
+        <div class="mini-cart-items">
+          <div class="mini-item" *ngFor="let item of cartItems">
+            <span>{{ item.quantity }}x {{ item.product.name }}</span>
+            <b>${{ (item.product.price * item.quantity).toFixed(2) }}</b>
+          </div>
+        </div>
+
+        <div class="summary-total">
+          <span>Ödenecek Tutar</span>
+          <span class="total-price">${{ total.toFixed(2) }}</span>
+        </div>
+
+        <button class="pay-btn" (click)="processPayment()" [disabled]="isProcessing">
+          <span *ngIf="!isProcessing">Siparişi Tamamla</span>
+          <span *ngIf="isProcessing">Güvenli Bağlantı Kuruluyor... ⏳</span>
+        </button>
+        <p class="secure-text">🔒 256-bit SSL ile güvence altındadır.</p>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -46,6 +46,11 @@ export class CartService {
     }
   }
 
+  // Ödeme sonrası sepeti tamamen boşaltmak için eklendi
+  clearCart() {
+    this.items = [];
+  }
+
   // Ürünü sepetten direkt sil (Çöp kutusu butonu için)
   removeFromCart(productId: number) {
     this.items = this.items.filter(item => item.product.id !== productId);

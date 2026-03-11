@@ -84,6 +84,59 @@
     </div>
   </div>
 
+  <div class="reviews-section">
+      <div class="reviews-header">
+        <h2>Müşteri Değerlendirmeleri</h2>
+        <div class="overall-rating">
+          <span class="big-score">4.8</span>
+          <div class="stars-col">
+            <span style="font-size: 20px;">⭐⭐⭐⭐⭐</span>
+            <span class="total-reviews">{{ reviews.length }} Değerlendirme</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="reviews-grid">
+        <div class="write-review-box">
+          <h3>Sen de Puan Ver</h3>
+          <p>Bu ürünü kullandınız mı? Deneyiminizi diğer müşterilerle paylaşın.</p>
+
+          <div class="rating-select">
+            <label>Puanınız:</label>
+            <select [(ngModel)]="newReview.rating">
+              <option [value]="5">⭐⭐⭐⭐⭐ Mükemmel</option>
+              <option [value]="4">⭐⭐⭐⭐ İyi</option>
+              <option [value]="3">⭐⭐⭐ İdare Eder</option>
+              <option [value]="2">⭐⭐ Kötü</option>
+              <option [value]="1">⭐ Berbat</option>
+            </select>
+          </div>
+
+          <textarea [(ngModel)]="newReview.text" placeholder="Ürün hakkında ne düşünüyorsunuz? Kargo hızlı mıydı? Kalitesi nasıl?..." rows="4"></textarea>
+          <button class="submit-review-btn" (click)="submitReview()">Yorumu Gönder</button>
+        </div>
+
+        <div class="reviews-list">
+          <div class="review-card" *ngFor="let review of reviews">
+            <div class="review-top">
+              <div class="reviewer-info">
+                <div class="reviewer-avatar">{{ review.avatar }}</div>
+                <div>
+                  <h4 class="reviewer-name">{{ review.author }} <span class="verified-badge">✅ Onaylı Alıcı</span></h4>
+                  <div class="review-date">{{ review.date }}</div>
+                </div>
+              </div>
+              <div class="review-stars">{{ getStars(review.rating) }}</div>
+            </div>
+            <p class="review-text">{{ review.text }}</p>
+            <div class="review-helpful">
+              <span>Bu yorum faydalı oldu mu?</span>
+              <button class="helpful-btn">👍 Evet ({{ review.helpfulCount }})</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   <div class="modal-overlay" *ngIf="showAuthModal">
     <div class="modal-box">
       <div class="modal-icon">🛒</div>

@@ -22,15 +22,13 @@ export class Login {
   constructor(private router: Router) {}
 
   onLogin() {
-    // BACKEND OLMADIĞI İÇİN MOCK (SAHTE) KONTROL
-    // Gerçek projede burada bir API isteği olurdu.
     if (this.loginData.email === 'admin@datapulse.com' && this.loginData.password === '123456') {
-      console.log('Giriş Başarılı!');
-
-      // Hocanın istediği JWT simülasyonu için localStorage'a sahte bir token atalım
+      console.log('Admin Girişi Başarılı!');
       localStorage.setItem('token', 'mock-jwt-token-for-cse214');
 
-      this.router.navigate(['/products']); // Başarılıysa ürünlere git
+      // İŞTE DEĞİŞİKLİK BURADA: Artık ürünlere değil, admin paneline (dashboard) gidiyoruz!
+      this.router.navigate(['/dashboard']);
+
     } else {
       this.errorMessage = 'E-posta veya şifre hatalı! (İpucu: admin@datapulse.com / 123456)';
     }

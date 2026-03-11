@@ -1,0 +1,89 @@
+<div class="dashboard-page">
+
+  <aside class="sidebar">
+    <div class="logo">
+      <span class="highlight">Data</span>Pulse <span style="color: #888; font-size: 14px; font-weight: normal;">| Admin</span>
+    </div>
+
+    <div class="menu-section">
+      <p class="menu-label">ANA MENÜ</p>
+      <a routerLink="/dashboard" class="menu-item active">🏠 Dashboard</a>
+      <a routerLink="/products" class="menu-item">📦 Ürünler</a>
+      <a href="#" class="menu-item">🛒 Siparişler</a>
+      <a href="#" class="menu-item">📈 Analitik</a>
+    </div>
+
+    <div class="menu-section">
+      <p class="menu-label">YÖNETİM</p>
+      <a href="#" class="menu-item">👥 Müşteriler</a>
+      <a href="#" class="menu-item">🚚 Kargolar</a>
+      <a href="#" class="menu-item">⭐ Değerlendirmeler</a>
+      <a href="#" class="menu-item">⚙️ Mağaza Ayarları</a>
+    </div>
+
+    <div style="margin-top: auto;">
+      <button routerLink="/login" class="logout-btn">Çıkış Yap</button>
+    </div>
+  </aside>
+
+  <main class="dashboard-content">
+    <header class="top-header">
+      <div>
+        <h1 style="margin: 0; color: #2c3e50; font-size: 24px;">Hoş Geldin, Admin 👋</h1>
+        <p style="margin: 5px 0 0 0; color: #888; font-size: 14px;">Mağazanın bugünkü özeti aşağıdadır.</p>
+      </div>
+      <div class="profile-area">
+        <span style="font-weight: bold; color: #333;">Admin User</span>
+        <div class="avatar">A</div>
+      </div>
+    </header>
+
+    <div class="kpi-container">
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <div class="icon-box" style="background: rgba(140, 82, 255, 0.1); color: #8c52ff;">💰</div>
+          <span class="badge positive">{{ kpiData.revenueGrowth }}</span>
+        </div>
+        <h3>{{ kpiData.revenue }}</h3>
+        <p>Toplam Gelir</p>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <div class="icon-box" style="background: rgba(39, 174, 96, 0.1); color: #27ae60;">📦</div>
+          <span class="badge positive">{{ kpiData.ordersGrowth }}</span>
+        </div>
+        <h3>{{ kpiData.orders }}</h3>
+        <p>Toplam Sipariş</p>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <div class="icon-box" style="background: rgba(52, 152, 219, 0.1); color: #3498db;">👥</div>
+          <span class="badge positive">{{ kpiData.customersGrowth }}</span>
+        </div>
+        <h3>{{ kpiData.customers }}</h3>
+        <p>Müşteriler</p>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-top">
+          <div class="icon-box" style="background: rgba(241, 196, 15, 0.1); color: #f39c12;">⭐</div>
+          <span class="badge positive">{{ kpiData.ratingGrowth }}</span>
+        </div>
+        <h3>{{ kpiData.rating }}</h3>
+        <p>Ortalama Puan</p>
+      </div>
+
+    </div>
+
+    <div class="chart-box">
+      <h3 style="margin: 0 0 20px 0; color: #2c3e50;">Satış Trendi (Özet)</h3>
+      <div class="placeholder-box">
+        (Buraya PDF'te istenen grafik entegre edilecek)
+      </div>
+    </div>
+
+  </main>
+</div>
