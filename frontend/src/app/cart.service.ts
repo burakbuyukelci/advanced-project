@@ -4,6 +4,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Product } from './product.service';
 import { environment } from '../environments/environment';
 
+import { Router } from '@angular/router';
+
 export interface CartItem {
   cartItemId: number;
   product: Product;
@@ -17,7 +19,11 @@ export class CartService {
   private itemsSubject = new BehaviorSubject<CartItem[]>([]);
   public items$ = this.itemsSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {
+    if (typeof window !== 'undefined' && localStorage.getItem('token')) {
+      this.loadCart();
+    }
+  }
 
   // Sepeti Sunucudan Yükle
   loadCart() {
@@ -56,9 +62,20 @@ export class CartService {
   }
 
   addToCart(product: Product) {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
     this.http.post<any>(`${environment.apiUrl}/cart`, { productId: product.id, quantity: 1 }).subscribe({
       next: () => this.loadCart(),
-      error: (err) => console.error('Sepete eklenemedi', err)
+      error: (err) => {
+        console.error('Sepete eklenemedi', err);
+        if (err.status === 401) {
+           this.router.navigate(['/login']);
+        }
+      }
     });
   }
 

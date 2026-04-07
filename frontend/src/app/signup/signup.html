@@ -41,7 +41,10 @@
           {{ errorMessage }}
         </div>
 
-        <button type="submit" class="login-btn">Ücretsiz Kayıt Ol</button>
+        <button type="submit" class="login-btn" [disabled]="loading">
+          <span *ngIf="!loading">Ücretsiz Kayıt Ol</span>
+          <span *ngIf="loading">Kayıt Olunuyor...</span>
+        </button>
       </form>
 
       <div class="divider">

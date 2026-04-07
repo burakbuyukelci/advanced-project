@@ -10,7 +10,7 @@ public class CustomerProfile {
     private String membershipType;
     @Column(precision = 12, scale = 2) private BigDecimal totalSpend;
     private Integer itemsPurchased;
-    private Double avgRating;
+    @Column(columnDefinition = "DOUBLE") private Double avgRating;
     private Boolean discountApplied; private String satisfactionLevel;
 
     public CustomerProfile() {}

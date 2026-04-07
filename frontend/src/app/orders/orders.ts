@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { OrderService, Order } from '../order.service';
@@ -13,11 +13,15 @@ import { OrderService, Order } from '../order.service';
 export class Orders implements OnInit {
   myOrders: Order[] = [];
 
-  constructor(private orderService: OrderService) {}
+  constructor(private orderService: OrderService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.orderService.getOrders().subscribe({
-      next: (data) => this.myOrders = data,
+      next: (data) => {
+        console.log('Siparişler geldi:', data);
+        this.myOrders = data;
+        this.cdr.detectChanges();
+      },
       error: (err) => console.error('Siparişler alınamadı', err)
     });
   }

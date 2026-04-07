@@ -35,4 +35,13 @@ public class AuthController {
     public ResponseEntity<ApiResponse<UserResponse>> getCurrentUser(@AuthenticationPrincipal UserPrincipal principal) {
         User user = userRepository.findById(principal.getId()).orElseThrow(); return ResponseEntity.ok(ApiResponse.success(UserResponse.fromEntity(user)));
     }
+
+    @PostMapping("/reset-password") @Operation(summary="Reset password")
+    public ResponseEntity<ApiResponse<Void>> resetPassword(@RequestBody Map<String,String> body) {
+        String email = body.get("email");
+        String newPassword = body.get("newPassword");
+        if (email == null || newPassword == null) throw new IllegalArgumentException("Email and newPassword are required");
+        authService.resetPassword(email, newPassword);
+        return ResponseEntity.ok(ApiResponse.success("Password reset successful", null));
+    }
 }

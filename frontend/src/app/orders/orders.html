@@ -25,7 +25,9 @@
 
         <div class="order-items">
           <div class="item-row" *ngFor="let item of order.items">
-            <div class="item-icon">{{ item.product.icon }}</div>
+            <div class="item-icon" style="width: 60px; height: 60px; border-radius: 8px; overflow: hidden; background: #f0f0f0; flex-shrink: 0;">
+              <img [src]="item.product.imageUrl" [alt]="item.product.name" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
             <div class="item-details">
               <h4>{{ item.product.name }}</h4>
               <span>Adet: {{ item.quantity }}</span>

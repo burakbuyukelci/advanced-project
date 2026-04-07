@@ -19,6 +19,10 @@ export interface AuthResponse {
 export class AuthService {
   constructor(private http: HttpClient) {}
 
+  register(userData: any): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${environment.apiUrl}/auth/register`, userData);
+  }
+
   login(email: string, password: string): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${environment.apiUrl}/auth/login`, { email, password }).pipe(
       tap(res => {

@@ -33,14 +33,27 @@ export class OrderService {
     return this.http.get<any>(`${environment.apiUrl}/orders`).pipe(
       map(res => {
         if (res.success && res.data) {
-          return res.data.map((o: any) => ({
+          // Backend Page format\u0131nda d\u00f6n\u00fcyor: res.data.content dizisi i\u00e7inde sipari\u015fler var
+          const orders = res.data.content || res.data;
+          if (!Array.isArray(orders)) return [];
+          
+          return orders.map((o: any) => ({
             id: o.id,
             orderId: o.orderNumber,
             date: new Date(o.orderDate),
             total: o.totalAmount,
             totalAmount: o.totalAmount,
             status: o.status,
-            items: o.items || []
+            items: (o.items || []).map((item: any) => ({
+              quantity: item.quantity,
+              product: {
+                id: item.productId,
+                name: item.productName,
+                price: item.unitPrice,
+                imageUrl: item.imageUrl || '',
+                icon: item.imageUrl || ''
+              }
+            }))
           }));
         }
         return [];

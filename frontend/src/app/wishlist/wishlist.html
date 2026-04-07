@@ -17,7 +17,9 @@
 
         <button class="wishlist-btn" (click)="removeFromWishlist(product)" style="border-color: #ff4757; color: #ff4757;">❌</button>
 
-        <div class="card-icon">{{ product.icon }}</div>
+        <div style="width: 100%; height: 180px; overflow: hidden; border-radius: 12px 12px 0 0; background: #f0f0f0;">
+          <img [src]="product.imageUrl" [alt]="product.name" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
         <div class="card-content">
           <div class="product-info">
             <span class="category-tag">{{ product.category }}</span>

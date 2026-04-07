@@ -23,7 +23,7 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "category_id") private Category category;
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "store_id") private Store store;
     private String imageUrl;
-    private Double rating;
+    @Column(columnDefinition = "DOUBLE") private Double rating;
     private Integer reviewCount;
     @Column(nullable = false, updatable = false) private LocalDateTime createdAt;
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL) @JsonIgnore

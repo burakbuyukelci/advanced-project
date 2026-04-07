@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ProductService, Product } from './product.service';
-import { CartService } from './cart.service'; 
+import { CartService } from './cart.service';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({
@@ -8,14 +8,14 @@ import { firstValueFrom } from 'rxjs';
 })
 export class Gemini {
   // DİKKAT: KENDİ ÇALIŞAN API ANAHTARINI BURAYA YAZMAYI UNUTMA!
-  private apiKey = '******';
+  private apiKey = '****************************';
 
   private apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:streamGenerateContent?alt=sse&key=${this.apiKey}`;
 
   constructor(
     private productService: ProductService,
     private cartService: CartService
-  ) {}
+  ) { }
 
   async askQuestionStream(userMessage: string, onChunkReceived: (text: string) => void): Promise<void> {
     try {

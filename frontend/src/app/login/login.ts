@@ -3,6 +3,8 @@ import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth.service';
+import { CartService } from '../cart.service';
+import { WishlistService } from '../wishlist.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +18,12 @@ export class Login {
   errorMessage: string = '';
   loading: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService, 
+    private router: Router,
+    private cartService: CartService,
+    private wishlistService: WishlistService
+  ) {}
 
   onLogin() {
     this.loading = true;
@@ -25,6 +32,10 @@ export class Login {
       next: (res) => {
         this.loading = false;
         if (res.success) {
+          // Login sonrası kullanıcı sepeti ve favorilerini anında çek
+          this.cartService.loadCart();
+          this.wishlistService.loadWishlist();
+
           const role = res.data.user.role;
           if (role === 'ADMIN' || role === 'CORPORATE') {
             this.router.navigate(['/dashboard']);

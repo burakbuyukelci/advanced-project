@@ -17,10 +17,11 @@ public class OrderResponse {
     public List<OrderItemResponse> getItems() { return items; }
 
     public static class OrderItemResponse {
-        private Long id, productId; private String productName, productSku;
+        private Long id, productId; private String productName, productSku, imageUrl;
         private Integer quantity; private BigDecimal unitPrice, subtotal;
         public Long getId() { return id; } public Long getProductId() { return productId; }
         public String getProductName() { return productName; } public String getProductSku() { return productSku; }
+        public String getImageUrl() { return imageUrl; }
         public Integer getQuantity() { return quantity; } public BigDecimal getUnitPrice() { return unitPrice; }
         public BigDecimal getSubtotal() { return subtotal; }
         public static OrderItemResponse fromEntity(OrderItem i) {
@@ -28,6 +29,7 @@ public class OrderResponse {
             r.id=i.getId(); r.productId=i.getProduct().getId(); r.productName=i.getProduct().getName();
             r.productSku=i.getProduct().getSku(); r.quantity=i.getQuantity(); r.unitPrice=i.getUnitPrice();
             r.subtotal=i.getUnitPrice().multiply(BigDecimal.valueOf(i.getQuantity()));
+            r.imageUrl=i.getProduct().getImageUrl();
             return r;
         }
     }

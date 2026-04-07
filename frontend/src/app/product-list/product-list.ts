@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ProductService, Product } from '../product.service';
 import { CartService } from '../cart.service';
 import { WishlistService } from '../wishlist.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-product-list',
@@ -17,6 +18,7 @@ export class ProductList implements OnInit {
   products: Product[] = [];
   showAuthModal: boolean = false;
   selectedProduct: Product | null = null;
+  favoriteIds: Set<number> = new Set();
 
   // Arama ve Kategoriler
   searchText: string = '';
@@ -33,15 +35,32 @@ export class ProductList implements OnInit {
     private productService: ProductService,
     private cartService: CartService,
     private router: Router,
-    private wishlistService: WishlistService
+    private wishlistService: WishlistService,
+    private cdr: ChangeDetectorRef,
+    public authService: AuthService
   ) {}
+
+  get isAuth(): boolean { return this.authService.isAuthenticated(); }
+  get currentUser(): any { return this.authService.getCurrentUser(); }
+  
+  logout() {
+    this.authService.logout();
+    this.cdr.detectChanges(); // Sayfayı yenilemeye gerek kalmadan arayüzü güncelle
+  }
 
   ngOnInit() {
     this.productService.getProducts().subscribe({
       next: (data) => {
         this.products = data;
+        this.cdr.detectChanges();
       },
       error: (err) => console.error('Ürünler yüklenirken hata:', err)
+    });
+
+    // Favorileri reactive olarak takip et
+    this.wishlistService.favorites$.subscribe(favs => {
+      this.favoriteIds = new Set(favs.map(f => f.id));
+      this.cdr.detectChanges();
     });
   }
 
@@ -97,8 +116,13 @@ export class ProductList implements OnInit {
   getStars(rating: number): string { return '⭐'.repeat(Math.round(rating)); }
 
   onAddToCartClick(product: Product) {
-    this.selectedProduct = product;
-    this.showAuthModal = true;
+    if (this.isAuth) {
+      this.cartService.addToCart(product);
+      alert('Ürün sepete eklendi!');
+    } else {
+      this.selectedProduct = product;
+      this.showAuthModal = true;
+    }
   }
 
   continueAsGuest() {
@@ -116,11 +140,15 @@ export class ProductList implements OnInit {
   closeModal() { this.showAuthModal = false; }
 
   toggleWishlist(product: Product) {
+    if (!this.isAuth) {
+      this.router.navigate(['/login']);
+      return;
+    }
     this.wishlistService.toggleFavorite(product);
   }
 
   isFavorite(productId: number): boolean {
-    return this.wishlistService.isFavorite(productId);
+    return this.favoriteIds.has(productId);
   }
 
 }

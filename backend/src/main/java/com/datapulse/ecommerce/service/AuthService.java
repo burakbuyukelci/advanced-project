@@ -64,4 +64,12 @@ public class AuthService {
         return JwtResponse.builder().accessToken(newAccessToken).refreshToken(refreshToken)
                 .tokenType("Bearer").expiresIn(tokenProvider.getAccessTokenExpirationMs()).user(UserResponse.fromEntity(user)).build();
     }
+
+    @Transactional
+    public void resetPassword(String email, String newPassword) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("Bu e-posta adresiyle kayıtlı kullanıcı bulunamadı."));
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
 }

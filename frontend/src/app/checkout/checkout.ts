@@ -42,22 +42,31 @@ export class Checkout implements OnInit {
 
     this.isProcessing = true;
 
-    setTimeout(() => {
-      this.isProcessing = false;
-      this.paymentSuccessful = true;
+    // Önce siparişi backend'e gönder, sonra animasyonu göster
+    const orderItems = this.cartItems.map(item => ({
+      productId: item.product.id,
+      quantity: item.quantity
+    }));
+    
+    console.log('Sipariş gönderiliyor:', orderItems);
 
-      // İŞTE SİHİRLİ DOKUNUŞ: Sepeti temizlemeden önce siparişlere kaydet!
-      this.orderService.addOrder(this.cartItems, this.total).subscribe({
-        next: () => {
-          this.cartService.clearCart();
-          // 3 saniye sonra müşteriyi mağaza yerine "SİPARİŞLERİM" sayfasına yolla
-          setTimeout(() => {
-            this.router.navigate(['/orders']);
-          }, 3000);
-        },
-        error: (err) => console.error('Sipariş oluşturulamadı', err)
-      });
-
-    }, 2500);
+    this.orderService.addOrder(this.cartItems, this.total).subscribe({
+      next: (res) => {
+        console.log('Sipariş başarılı:', res);
+        this.isProcessing = false;
+        this.paymentSuccessful = true;
+        this.cartService.clearCart();
+        
+        // 3 saniye sonra siparişlerim sayfasına yönlendir
+        setTimeout(() => {
+          this.router.navigate(['/orders']);
+        }, 3000);
+      },
+      error: (err) => {
+        console.error('Sipariş oluşturulamadı:', err);
+        this.isProcessing = false;
+        alert('Sipariş oluşturulurken bir hata oluştu: ' + (err.error?.message || 'Lütfen tekrar deneyin.'));
+      }
+    });
   }
 }

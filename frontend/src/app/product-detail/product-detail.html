@@ -8,7 +8,17 @@
       <button class="cart-btn" routerLink="/cart">
         Sepetim <span *ngIf="cartCount > 0" class="cart-badge">{{ cartCount }}</span>
       </button>
-      <button class="login-btn" routerLink="/login">Çıkış Yap</button>
+
+      <ng-container *ngIf="!isAuth">
+        <button class="login-btn" routerLink="/login">Giriş Yap</button>
+      </ng-container>
+
+      <ng-container *ngIf="isAuth">
+        <span style="font-weight: 500; font-size: 14px; margin-right: 15px; color: #2c3e50;">
+          Merhaba, {{ currentUser?.fullName?.split(' ')[0] || 'Kullanıcı' }}
+        </span>
+        <button class="login-btn" style="background:#e74c3c; border-color: #e74c3c;" (click)="logout()">Çıkış Yap</button>
+      </ng-container>
     </div>
   </nav>
 
@@ -21,15 +31,13 @@
     <div class="product-showcase">
 
       <div class="gallery-section">
-        <div class="main-image-container">
+        <div class="main-image-container" style="overflow: hidden; border-radius: 12px; background: #f9f9f9; width: 100%; height: 400px; display: flex; align-items: center; justify-content: center;">
           <div class="zoom-icon">🔍</div>
-          <div class="icon-huge">{{ product.icon }}</div>
+          <img [src]="product.imageUrl" [alt]="product.name" style="width: 100%; height: 100%; object-fit: contain;">
         </div>
         <div class="thumbnail-list">
-          <div class="thumbnail active">{{ product.icon }}</div>
-          <div class="thumbnail">{{ product.icon }}</div>
-          <div class="thumbnail">{{ product.icon }}</div>
-          <div class="thumbnail">{{ product.icon }}</div>
+           <!-- Normalde birden fazla foto geldiğinde looplanması gerekir. Şimdilik simüle ediyoruz -->
+          <div class="thumbnail active" style="overflow: hidden;"><img [src]="product.imageUrl" style="width: 100%; height: 100%; object-fit: cover;"></div>
         </div>
       </div>
 

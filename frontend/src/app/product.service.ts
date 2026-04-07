@@ -29,11 +29,20 @@ export class ProductService {
     return this.http.get<any>(`${environment.apiUrl}/products`)
       .pipe(map(res => {
         // Backend'in Pageable verisinden content'i çekiyoruz.
-        const items: Product[] = res.data.content || res.data;
+        const items: Product[] = (res.data && res.data.content) ? res.data.content : (res.data || []);
+        console.log("Mapped products:", items);
+        
+        const categoryMap: any = {
+          'Wearable Technology': 'Giyilebilir Teknoloji',
+          'Computers': 'Bilgisayar',
+          'Accessories': 'Aksesuarlar',
+          'Audio & Music': 'Ses & Müzik'
+        };
+
         return items.map(p => ({
           ...p,
-          icon: p.imageUrl, // Eski koddaki icon'u imageUrl ile eşledik (Template bozulmasın diye geçici)
-          category: p.categoryName || 'Tüm Kategoriler' // Filtreleme için uyumluluk
+          icon: p.imageUrl, 
+          category: categoryMap[p.categoryName] || p.categoryName || 'Tüm Kategoriler' 
         }));
       }));
   }
