@@ -1,0 +1,67 @@
+spring:
+  application:
+    name: datapulse-ecommerce
+
+  # ── MySQL (Default) ──────────────────────────────────
+  datasource:
+    url: jdbc:mysql://localhost:3306/datapulse_ecommerce?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: root
+    password: Ayhan2929.
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    default-property-inclusion: non_null
+
+# ── Server ───────────────────────────────────────────
+server:
+  port: 8080
+
+# ── JWT Configuration ────────────────────────────────
+app:
+  jwt:
+    secret: ZGF0YXB1bHNlLWVjb21tZXJjZS1zZWNyZXQta2V5LWZvci1jc2UyMTQtZmluYWwtcHJvamVjdC0yMDI2
+    expiration-ms: 86400000       # 24 hours
+    refresh-expiration-ms: 604800000  # 7 days
+
+# ── Swagger / OpenAPI ────────────────────────────────
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: method
+
+# ── Logging ──────────────────────────────────────────
+logging:
+  level:
+    com.datapulse.ecommerce: DEBUG
+    org.springframework.security: WARN
+    org.hibernate.SQL: WARN
+
+---
+# ── PostgreSQL Profile ───────────────────────────────
+spring:
+  config:
+    activate:
+      on-profile: postgres
+  datasource:
+    url: jdbc:postgresql://localhost:5432/datapulse_ecommerce
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
